@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- <script src="main.js"></script> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #game-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        #word-display {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 20px 0;
+            letter-spacing: 10px;
+        }
+
+        #letter-count {
+            font-size: 20px;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        #guess-input {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input:focus, button:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <p id="word-display"></p>
+        <p id="letter-count"></p>
+        <input type="text" id="guess-input" placeholder="Введіть букву">
+        <button onclick="checkGuess()">Проверить</button>
+    </div>
+    <script>
+        const wordsList = [
+            "факторіал",
+            "литература",
+            "сказка",
+            "океан",
+            "космос",
+            "глушник",
+            "мішечок",
+            "ягня",
+            "гумка",
+            "ноутбук",
+            "фінік",
+            "ельф",
+            "декада",
+            "курок",
+            "фельдшер",
+            "балерина",
+            "крейсер",
+            "гантеля",
+            "бандит",
+            "меморіал"
+        ];
+
+        function getRandomWord() {
+            const randomIndex = Math.floor(Math.random() * wordsList.length);
+            return wordsList[randomIndex];
+        }
+
+        const selectedWord = getRandomWord();
+        const wordLength = selectedWord.length;
+
+
+        const guessedLetters = new Array(wordLength).fill('_');
+
+
+        function updateDisplay() {
+            document.getElementById('word-display').textContent = guessedLetters.join(' ');
+        }
+
+
+        function checkGuess() {
+            const guessInput = document.getElementById('guess-input');
+            const guess = guessInput.value.toLowerCase();
+            
+            if (guess.length !== 1) {
+                alert('Введіть одну букву!');
+                return;
+            }
+
+            let hasGuessed = false;
+            for (let i = 0; i < selectedWord.length; i++) {
+                if (selectedWord[i] === guess) {
+                    guessedLetters[i] = guess;
+                    hasGuessed = true;
+                }
+            }
+
+            updateDisplay();
+            guessInput.value = '';
+
+            if (guessedLetters.join('') === selectedWord) {
+                alert('Вітаємо! Вы вгадали слово!');
+            }
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>
